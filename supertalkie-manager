@@ -1,4 +1,10 @@
 #!/bin/bash
-# My first script
+# A script to manage the SuperTalkie
 
-echo "Hello World!"
+if [ "$1" = "start" ]; then
+  echo "Starting SuperTalkie"
+  systemctl restart mumble.service
+elif [ "$1" = "stop" ]; then
+  echo "Stoping SuperTalkie"
+  systemctl stop mumble.service
+fi
