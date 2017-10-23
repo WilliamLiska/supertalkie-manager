@@ -8,6 +8,8 @@ function setCronJob() {
   ( crontab -l | grep -v -F "$cmd" ; echo "$job" ) | crontab -
 }
 
+mgrRootCmd="/home/mumble/supertalkie-manager/supertalkie-manager"
+
 if [ "$1" = "start" ]; then
   echo "Starting SuperTalkie"
   systemctl restart mumble.service
@@ -16,6 +18,16 @@ elif [ "$1" = "stop" ]; then
   systemctl stop mumble.service
 elif [ "$1" = "install" ]; then
   echo "Installing SuperTalkie Manager"
-  setCronJob "0 20 * * *" "/home/mumble/supertalkie-manager/supertalkie-manager stop"
-  setCronJob "0 8 * * *" "/home/mumble/supertalkie-manager/supertalkie-manager start"
+  setCronJob "0 20 * * *" "$mgrRootCmd stop"
+  setCronJob "0 8 * * *" "$mgrRootCmd start"
+elif [ "$1" = "set-stoptime" ]; then
+  hour="$2"
+  min="$3"
+  echo "Setting SuperTalkie stop time to $hour:$min"
+  setCronJob "$min $hour * * *" "$mgrRootCmd stop"
+elif [ "$1" = "set-starttime" ]; then
+  hour="$2"
+  min="$3"
+  echo "Setting SuperTalkie start time to $hour:$min"
+  setCronJob "$min $hour * * *" "$mgrRootCmd start"
 fi

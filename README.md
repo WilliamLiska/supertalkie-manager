@@ -10,3 +10,9 @@ A script for managing the **SuperTalkie**
 
 #### To gracefully stop the SuperTalkie service
 `supertalkie-manager stop`
+
+#### To change the time SuperTalkie turns off for the night
+`supertalkie-manager set-stoptime hh mm`
+
+#### To change the time SuperTalkie turns on in the morning
+`supertalkie-manager set-startime hh mm`
