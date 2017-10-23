@@ -1,10 +1,21 @@
 #!/bin/bash
 # A script to manage the SuperTalkie
 
+function setCronJob() {
+  cmd=$2
+  sched=$1
+  job="$sched $cmd"
+  ( crontab -l | grep -v -F "$cmd" ; echo "$job" ) | crontab -
+}
+
 if [ "$1" = "start" ]; then
   echo "Starting SuperTalkie"
   systemctl restart mumble.service
 elif [ "$1" = "stop" ]; then
   echo "Stoping SuperTalkie"
   systemctl stop mumble.service
+elif [ "$1" = "install" ]; then
+  echo "Installing SuperTalkie Manager"
+  setCronJob "0 20 * * *" "/home/mumble/supertalkie-manager/supertalkie-manager stop"
+  setCronJob "0 8 * * *" "/home/mumble/supertalkie-manager/supertalkie-manager start"
 fi
